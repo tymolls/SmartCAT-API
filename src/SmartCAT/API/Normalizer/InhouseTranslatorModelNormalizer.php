@@ -98,7 +98,7 @@ class InhouseTranslatorModelNormalizer extends AbstractNormalizer
     public function getSupportedTypes(?string $format): array
     {
         return [
-            'object',
+            \SmartCat\Client\Model\InhouseTranslatorModel::class => true,
         ];
     }
 }

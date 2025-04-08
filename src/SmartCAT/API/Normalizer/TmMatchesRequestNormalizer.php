@@ -59,7 +59,7 @@ class TmMatchesRequestNormalizer extends AbstractNormalizer
     public function getSupportedTypes(?string $format): array
     {
         return [
-            'object',
+            \SmartCat\Client\Model\TmMatchesRequest::class => true,
         ];
     }
 }

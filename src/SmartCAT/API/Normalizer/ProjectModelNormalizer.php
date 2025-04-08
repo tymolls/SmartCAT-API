@@ -200,7 +200,7 @@ class ProjectModelNormalizer extends AbstractNormalizer
     public function getSupportedTypes(?string $format): array
     {
         return [
-            'object',
+            \SmartCat\Client\Model\ProjectModel::class => true,
         ];
     }
 }

@@ -47,7 +47,7 @@ class DocumentTargetIdNormalizer extends AbstractNormalizer
     public function getSupportedTypes(?string $format): array
     {
         return [
-            'object',
+            \SmartCat\Client\Model\DocumentTargetId::class => true,
         ];
     }
 }

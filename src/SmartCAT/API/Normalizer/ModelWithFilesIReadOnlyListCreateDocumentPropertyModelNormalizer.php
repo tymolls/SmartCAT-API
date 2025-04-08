@@ -63,7 +63,7 @@ class ModelWithFilesIReadOnlyListCreateDocumentPropertyModelNormalizer extends A
     public function getSupportedTypes(?string $format): array
     {
         return [
-            'object',
+            \SmartCat\Client\Model\ModelWithFilesIReadOnlyListCreateDocumentPropertyModel::class => true,
         ];
     }
 }

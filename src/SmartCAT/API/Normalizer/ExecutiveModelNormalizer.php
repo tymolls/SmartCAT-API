@@ -47,7 +47,7 @@ class ExecutiveModelNormalizer extends AbstractNormalizer
     public function getSupportedTypes(?string $format): array
     {
         return [
-            'object',
+            \SmartCat\Client\Model\ExecutiveModel::class => true,
         ];
     }
 }

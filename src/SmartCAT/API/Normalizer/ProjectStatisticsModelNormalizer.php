@@ -75,7 +75,7 @@ class ProjectStatisticsModelNormalizer extends AbstractNormalizer
     public function getSupportedTypes(?string $format): array
     {
         return [
-            'object',
+            \SmartCat\Client\Model\ProjectStatisticsModel::class => true,
         ];
     }
 }

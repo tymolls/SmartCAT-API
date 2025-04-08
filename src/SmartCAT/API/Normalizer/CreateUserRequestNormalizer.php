@@ -65,7 +65,7 @@ class CreateUserRequestNormalizer extends AbstractNormalizer
     public function getSupportedTypes(?string $format): array
     {
         return [
-            'object',
+            \SmartCat\Client\Model\CreateUserRequest::class => true,
         ];
     }
 }

@@ -55,7 +55,7 @@ class ModelWithFilesUploadDocumentPropertiesModelNormalizer extends AbstractNorm
     public function getSupportedTypes(?string $format): array
     {
         return [
-            'object',
+            \SmartCat\Client\Model\ModelWithFilesUploadDocumentPropertiesModel::class => true,
         ];
     }
 }

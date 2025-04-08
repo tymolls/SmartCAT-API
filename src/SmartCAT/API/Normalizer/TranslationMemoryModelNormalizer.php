@@ -113,7 +113,7 @@ class TranslationMemoryModelNormalizer extends AbstractNormalizer
     public function getSupportedTypes(?string $format): array
     {
         return [
-            'object',
+            \SmartCat\Client\Model\TranslationMemoryModel::class => true,
         ];
     }
 }

@@ -135,7 +135,7 @@ class DocumentModelNormalizer extends AbstractNormalizer
     public function getSupportedTypes(?string $format): array
     {
         return [
-            'object',
+            \SmartCat\Client\Model\DocumentModel::class => true,
         ];
     }
 }

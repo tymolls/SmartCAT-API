@@ -73,7 +73,7 @@ class ProjectVendorModelNormalizer extends AbstractNormalizer
     public function getSupportedTypes(?string $format): array
     {
         return [
-            'object',
+            \SmartCat\Client\Model\ProjectVendorModel::class => true,
         ];
     }
 }
