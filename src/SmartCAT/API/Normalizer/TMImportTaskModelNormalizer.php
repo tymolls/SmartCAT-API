@@ -4,7 +4,7 @@ namespace SmartCat\Client\Normalizer;
 
 class TMImportTaskModelNormalizer extends AbstractNormalizer
 {
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== 'SmartCat\\Client\\Model\\TMImportTaskModel') {
             return false;
@@ -12,7 +12,7 @@ class TMImportTaskModelNormalizer extends AbstractNormalizer
         return true;
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if ($data instanceof \SmartCat\Client\Model\TMImportTaskModel) {
             return true;
@@ -20,7 +20,7 @@ class TMImportTaskModelNormalizer extends AbstractNormalizer
         return false;
     }
 
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $object = new \SmartCat\Client\Model\TMImportTaskModel();
         if (isset($data['accountId'])) {
@@ -41,24 +41,31 @@ class TMImportTaskModelNormalizer extends AbstractNormalizer
         return $object;
     }
 
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = new \stdClass();
+        $data = [];
         if (null !== $object->getAccountId()) {
-            $data->{'accountId'} = $object->getAccountId();
+            $data['accountId'] = $object->getAccountId();
         }
         if (null !== $object->getId()) {
-            $data->{'id'} = $object->getId();
+            $data['id'] = $object->getId();
         }
         if (null !== $object->getTranslationMemoryId()) {
-            $data->{'translationMemoryId'} = $object->getTranslationMemoryId();
+            $data['translationMemoryId'] = $object->getTranslationMemoryId();
         }
         if (null !== $object->getState()) {
-            $data->{'state'} = $object->getState();
+            $data['state'] = $object->getState();
         }
         if (null !== $object->getInsertedUnitCount()) {
-            $data->{'insertedUnitCount'} = $object->getInsertedUnitCount();
+            $data['insertedUnitCount'] = $object->getInsertedUnitCount();
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'object',
+        ];
     }
 }

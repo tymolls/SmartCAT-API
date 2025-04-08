@@ -12,7 +12,7 @@ class ProjectVendorModelNormalizer extends AbstractNormalizer
      * @param null $format
      * @return bool
      */
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== 'SmartCat\\Client\\Model\\ProjectVendorModel') {
             return false;
@@ -25,7 +25,7 @@ class ProjectVendorModelNormalizer extends AbstractNormalizer
      * @param null $format
      * @return bool
      */
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if ($data instanceof \SmartCat\Client\Model\ProjectVendorModel) {
             return true;
@@ -40,7 +40,7 @@ class ProjectVendorModelNormalizer extends AbstractNormalizer
      * @param array $context
      * @return ProjectVendorModel
      */
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $object = new \SmartCat\Client\Model\ProjectVendorModel();
         if (isset($data['vendorAccountId'])) {
@@ -58,15 +58,22 @@ class ProjectVendorModelNormalizer extends AbstractNormalizer
      * @param array $context
      * @return \stdClass
      */
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = new \stdClass();
+        $data = [];
         if (null !== $object->getVendorAccountId()) {
-            $data->{'vendorAccountId'} = $object->getVendorAccountId();
+            $data['vendorAccountId'] = $object->getVendorAccountId();
         }
         if (null !== $object->getRemovedFromProject()) {
-            $data->{'removedFromProject'} = $object->getRemovedFromProject();
+            $data['removedFromProject'] = $object->getRemovedFromProject();
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'object',
+        ];
     }
 }

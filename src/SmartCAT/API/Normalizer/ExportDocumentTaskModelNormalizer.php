@@ -4,7 +4,7 @@ namespace SmartCat\Client\Normalizer;
 
 class ExportDocumentTaskModelNormalizer extends AbstractNormalizer
 {
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== 'SmartCat\\Client\\Model\\ExportDocumentTaskModel') {
             return false;
@@ -12,7 +12,7 @@ class ExportDocumentTaskModelNormalizer extends AbstractNormalizer
         return true;
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if ($data instanceof \SmartCat\Client\Model\ExportDocumentTaskModel) {
             return true;
@@ -20,7 +20,7 @@ class ExportDocumentTaskModelNormalizer extends AbstractNormalizer
         return false;
     }
 
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $object = new \SmartCat\Client\Model\ExportDocumentTaskModel();
         if (isset($data['id'])) {
@@ -36,19 +36,26 @@ class ExportDocumentTaskModelNormalizer extends AbstractNormalizer
         return $object;
     }
 
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = new \stdClass();
+        $data = [];
         if (null !== $object->getId()) {
-            $data->{'id'} = $object->getId();
+            $data['id'] = $object->getId();
         }
         if (null !== $object->getDocumentIds()) {
             $values = array();
             foreach ($object->getDocumentIds() as $value) {
                 $values[] = $value;
             }
-            $data->{'documentIds'} = $values;
+            $data['documentIds'] = $values;
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'object',
+        ];
     }
 }

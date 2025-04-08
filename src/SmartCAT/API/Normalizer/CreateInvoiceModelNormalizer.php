@@ -4,7 +4,7 @@ namespace SmartCat\Client\Normalizer;
 
 class CreateInvoiceModelNormalizer extends AbstractNormalizer
 {
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== 'SmartCat\\Client\\Model\\CreateInvoiceModel') {
             return false;
@@ -12,7 +12,7 @@ class CreateInvoiceModelNormalizer extends AbstractNormalizer
         return true;
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if ($data instanceof \SmartCat\Client\Model\CreateInvoiceModel) {
             return true;
@@ -20,7 +20,7 @@ class CreateInvoiceModelNormalizer extends AbstractNormalizer
         return false;
     }
 
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $object = new \SmartCat\Client\Model\CreateInvoiceModel();
         if (isset($data['userId'])) {
@@ -36,19 +36,26 @@ class CreateInvoiceModelNormalizer extends AbstractNormalizer
         return $object;
     }
 
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = new \stdClass();
+        $data = [];
         if (null !== $object->getUserId()) {
-            $data->{'userId'} = $object->getUserId();
+            $data['userId'] = $object->getUserId();
         }
         if (null !== $object->getJobIds()) {
             $values = array();
             foreach ($object->getJobIds() as $value) {
                 $values[] = $value;
             }
-            $data->{'jobIds'} = $values;
+            $data['jobIds'] = $values;
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'object',
+        ];
     }
 }

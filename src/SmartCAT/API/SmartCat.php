@@ -85,7 +85,9 @@ class SmartCat
 
         /** @var AbstractNormalizer $normalizer */
         foreach ($normalizers as $normalizer) {
-            $normalizer->setSerializer($serializer);
+            if ($normalizer instanceof \Symfony\Component\Serializer\SerializerAwareInterface) {
+                $normalizer->setSerializer($serializer);
+            }
         }
 
         $messageFactory = new HttpFactory();

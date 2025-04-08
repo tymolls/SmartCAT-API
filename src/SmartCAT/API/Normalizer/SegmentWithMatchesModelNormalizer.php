@@ -4,7 +4,7 @@ namespace SmartCat\Client\Normalizer;
 
 class SegmentWithMatchesModelNormalizer extends AbstractNormalizer
 {
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== 'SmartCat\\Client\\Model\\SegmentWithMatchesModel') {
             return false;
@@ -12,7 +12,7 @@ class SegmentWithMatchesModelNormalizer extends AbstractNormalizer
         return true;
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if ($data instanceof \SmartCat\Client\Model\SegmentWithMatchesModel) {
             return true;
@@ -20,7 +20,7 @@ class SegmentWithMatchesModelNormalizer extends AbstractNormalizer
         return false;
     }
 
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $object = new \SmartCat\Client\Model\SegmentWithMatchesModel();
         if (isset($data['sourceText'])) {
@@ -42,25 +42,32 @@ class SegmentWithMatchesModelNormalizer extends AbstractNormalizer
         return $object;
     }
 
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = new \stdClass();
+        $data = [];
         if (null !== $object->getSourceText()) {
-            $data->{'sourceText'} = $object->getSourceText();
+            $data['sourceText'] = $object->getSourceText();
         }
         if (null !== $object->getTargetText()) {
-            $data->{'targetText'} = $object->getTargetText();
+            $data['targetText'] = $object->getTargetText();
         }
         if (null !== $object->getSegmentMatch()) {
-            $data->{'segmentMatch'} = $object->getSegmentMatch();
+            $data['segmentMatch'] = $object->getSegmentMatch();
         }
         if (null !== $object->getTags()) {
             $values = array();
             foreach ($object->getTags() as $value) {
                 $values[] = $this->serializer->serialize($value, 'raw', $context);
             }
-            $data->{'tags'} = $values;
+            $data['tags'] = $values;
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'object',
+        ];
     }
 }

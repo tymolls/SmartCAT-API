@@ -4,7 +4,7 @@ namespace SmartCat\Client\Normalizer;
 
 class UpdateUserRequestNormalizer extends AbstractNormalizer
 {
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== 'SmartCat\\Client\\Model\\UpdateUserRequest') {
             return false;
@@ -12,7 +12,7 @@ class UpdateUserRequestNormalizer extends AbstractNormalizer
         return true;
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if ($data instanceof \SmartCat\Client\Model\UpdateUserRequest) {
             return true;
@@ -20,7 +20,7 @@ class UpdateUserRequestNormalizer extends AbstractNormalizer
         return false;
     }
 
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $object = new \SmartCat\Client\Model\UpdateUserRequest();
         if (isset($data['firstName'])) {
@@ -35,18 +35,25 @@ class UpdateUserRequestNormalizer extends AbstractNormalizer
         return $object;
     }
 
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = new \stdClass();
+        $data = [];
         if (null !== $object->getFirstName()) {
-            $data->{'firstName'} = $object->getFirstName();
+            $data['firstName'] = $object->getFirstName();
         }
         if (null !== $object->getLastName()) {
-            $data->{'lastName'} = $object->getLastName();
+            $data['lastName'] = $object->getLastName();
         }
         if (null !== $object->getRightsGroup()) {
-            $data->{'rightsGroup'} = $object->getRightsGroup();
+            $data['rightsGroup'] = $object->getRightsGroup();
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'object',
+        ];
     }
 }

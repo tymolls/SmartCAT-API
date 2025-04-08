@@ -4,7 +4,7 @@ namespace SmartCat\Client\Normalizer;
 
 class UploadDocumentPropertiesModelNormalizer extends AbstractNormalizer
 {
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== 'SmartCat\\Client\\Model\\UploadDocumentPropertiesModel') {
             return false;
@@ -12,7 +12,7 @@ class UploadDocumentPropertiesModelNormalizer extends AbstractNormalizer
         return true;
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if ($data instanceof \SmartCat\Client\Model\UploadDocumentPropertiesModel) {
             return true;
@@ -20,7 +20,7 @@ class UploadDocumentPropertiesModelNormalizer extends AbstractNormalizer
         return false;
     }
 
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $object = new \SmartCat\Client\Model\UploadDocumentPropertiesModel();
         if (isset($data['bilingualFileImportSettings'])) {
@@ -32,15 +32,22 @@ class UploadDocumentPropertiesModelNormalizer extends AbstractNormalizer
         return $object;
     }
 
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = new \stdClass();
+        $data = [];
         if (null !== $object->getBilingualFileImportSettings()) {
-            $data->{'bilingualFileImportSettings'} = $this->serializer->serialize($object->getBilingualFileImportSettings(), 'raw', $context);
+            $data['bilingualFileImportSettings'] = $this->serializer->serialize($object->getBilingualFileImportSettings(), 'raw', $context);
         }
         if (null !== $object->getEnablePlaceholders()) {
-            $data->{'enablePlaceholders'} = $object->getEnablePlaceholders();
+            $data['enablePlaceholders'] = $object->getEnablePlaceholders();
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'object',
+        ];
     }
 }

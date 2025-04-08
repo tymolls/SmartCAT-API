@@ -4,7 +4,7 @@ namespace SmartCat\Client\Normalizer;
 
 class DocumentTargetIdNormalizer extends AbstractNormalizer
 {
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== 'SmartCat\\Client\\Model\\DocumentTargetId') {
             return false;
@@ -12,7 +12,7 @@ class DocumentTargetIdNormalizer extends AbstractNormalizer
         return true;
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if ($data instanceof \SmartCat\Client\Model\DocumentTargetId) {
             return true;
@@ -20,7 +20,7 @@ class DocumentTargetIdNormalizer extends AbstractNormalizer
         return false;
     }
 
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $object = new \SmartCat\Client\Model\DocumentTargetId();
         if (isset($data['DocumentId'])) {
@@ -32,15 +32,22 @@ class DocumentTargetIdNormalizer extends AbstractNormalizer
         return $object;
     }
 
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = new \stdClass();
+        $data = [];
         if (null !== $object->getDocumentId()) {
-            $data->{'DocumentId'} = $object->getDocumentId();
+            $data['DocumentId'] = $object->getDocumentId();
         }
         if (null !== $object->getLanguageId()) {
-            $data->{'LanguageId'} = $object->getLanguageId();
+            $data['LanguageId'] = $object->getLanguageId();
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'object',
+        ];
     }
 }

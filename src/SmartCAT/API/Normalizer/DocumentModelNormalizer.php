@@ -6,7 +6,7 @@ use Carbon\Carbon;
 
 class DocumentModelNormalizer extends AbstractNormalizer
 {
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== 'SmartCat\\Client\\Model\\DocumentModel') {
             return false;
@@ -14,7 +14,7 @@ class DocumentModelNormalizer extends AbstractNormalizer
         return true;
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if ($data instanceof \SmartCat\Client\Model\DocumentModel) {
             return true;
@@ -22,7 +22,7 @@ class DocumentModelNormalizer extends AbstractNormalizer
         return false;
     }
 
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $object = new \SmartCat\Client\Model\DocumentModel();
         if (isset($data['id'])) {
@@ -77,58 +77,65 @@ class DocumentModelNormalizer extends AbstractNormalizer
         return $object;
     }
 
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = new \stdClass();
+        $data = [];
         if (null !== $object->getId()) {
-            $data->{'id'} = $object->getId();
+            $data['id'] = $object->getId();
         }
         if (null !== $object->getName()) {
-            $data->{'name'} = $object->getName();
+            $data['name'] = $object->getName();
         }
         if (null !== $object->getCreationDate()) {
-            $data->{'creationDate'} = Carbon::parse($object->getCreationDate())->toISOString();
+            $data['creationDate'] = Carbon::parse($object->getCreationDate())->toISOString();
         }
         if (null !== $object->getDeadline()) {
-            $data->{'deadline'} = Carbon::parse($object->getDeadline())->toISOString();
+            $data['deadline'] = Carbon::parse($object->getDeadline())->toISOString();
         }
         if (null !== $object->getSourceLanguage()) {
-            $data->{'sourceLanguage'} = $object->getSourceLanguage();
+            $data['sourceLanguage'] = $object->getSourceLanguage();
         }
         if (null !== $object->getDocumentDisassemblingStatus()) {
-            $data->{'documentDisassemblingStatus'} = $object->getDocumentDisassemblingStatus();
+            $data['documentDisassemblingStatus'] = $object->getDocumentDisassemblingStatus();
         }
         if (null !== $object->getTargetLanguage()) {
-            $data->{'targetLanguage'} = $object->getTargetLanguage();
+            $data['targetLanguage'] = $object->getTargetLanguage();
         }
         if (null !== $object->getStatus()) {
-            $data->{'status'} = $object->getStatus();
+            $data['status'] = $object->getStatus();
         }
         if (null !== $object->getWordsCount()) {
-            $data->{'wordsCount'} = $object->getWordsCount();
+            $data['wordsCount'] = $object->getWordsCount();
         }
         if (null !== $object->getStatusModificationDate()) {
-            $data->{'statusModificationDate'} = Carbon::parse($object->getStatusModificationDate())->toISOString();
+            $data['statusModificationDate'] = Carbon::parse($object->getStatusModificationDate())->toISOString();
         }
         if (null !== $object->getPretranslateCompleted()) {
-            $data->{'pretranslateCompleted'} = $object->getPretranslateCompleted();
+            $data['pretranslateCompleted'] = $object->getPretranslateCompleted();
         }
         if (null !== $object->getWorkflowStages()) {
             $values = array();
             foreach ($object->getWorkflowStages() as $value) {
                 $values[] = $this->serializer->serialize($value, 'raw', $context);
             }
-            $data->{'workflowStages'} = $values;
+            $data['workflowStages'] = $values;
         }
         if (null !== $object->getExternalId()) {
-            $data->{'externalId'} = $object->getExternalId();
+            $data['externalId'] = $object->getExternalId();
         }
         if (null !== $object->getMetaInfo()) {
-            $data->{'metaInfo'} = $object->getMetaInfo();
+            $data['metaInfo'] = $object->getMetaInfo();
         }
         if (null !== $object->getPlaceholdersAreEnabled()) {
-            $data->{'placeholdersAreEnabled'} = $object->getPlaceholdersAreEnabled();
+            $data['placeholdersAreEnabled'] = $object->getPlaceholdersAreEnabled();
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'object',
+        ];
     }
 }

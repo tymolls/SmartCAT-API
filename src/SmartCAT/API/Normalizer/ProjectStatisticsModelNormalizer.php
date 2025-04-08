@@ -4,7 +4,7 @@ namespace SmartCat\Client\Normalizer;
 
 class ProjectStatisticsModelNormalizer extends AbstractNormalizer
 {
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== 'SmartCat\\Client\\Model\\ProjectStatisticsModel') {
             return false;
@@ -12,7 +12,7 @@ class ProjectStatisticsModelNormalizer extends AbstractNormalizer
         return true;
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if ($data instanceof \SmartCat\Client\Model\ProjectStatisticsModel) {
             return true;
@@ -20,7 +20,7 @@ class ProjectStatisticsModelNormalizer extends AbstractNormalizer
         return false;
     }
 
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $object = new \SmartCat\Client\Model\ProjectStatisticsModel();
         if (isset($data['language'])) {
@@ -46,29 +46,36 @@ class ProjectStatisticsModelNormalizer extends AbstractNormalizer
         return $object;
     }
 
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = new \stdClass();
+        $data = [];
         if (null !== $object->getLanguage()) {
-            $data->{'language'} = $object->getLanguage();
+            $data['language'] = $object->getLanguage();
         }
         if (null !== $object->getStatistics()) {
             $values = array();
             foreach ($object->getStatistics() as $value) {
                 $values[] = $this->serializer->serialize($value, 'raw', $context);
             }
-            $data->{'statistics'} = $values;
+            $data['statistics'] = $values;
         }
         if (null !== $object->getCost()) {
-            $data->{'cost'} = $object->getCost();
+            $data['cost'] = $object->getCost();
         }
         if (null !== $object->getDocuments()) {
             $values_1 = array();
             foreach ($object->getDocuments() as $value_1) {
                 $values_1[] = $this->serializer->serialize($value_1, 'raw', $context);
             }
-            $data->{'documents'} = $values_1;
+            $data['documents'] = $values_1;
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'object',
+        ];
     }
 }

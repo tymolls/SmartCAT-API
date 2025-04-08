@@ -7,7 +7,7 @@ use SmartCat\Client\Model\DirectoryModel;
 
 class DirectoryModelNormalizer extends AbstractNormalizer
 {
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== 'SmartCat\\Client\\Model\\DirectoryModel') {
             return false;
@@ -15,7 +15,7 @@ class DirectoryModelNormalizer extends AbstractNormalizer
         return true;
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if ($data instanceof DirectoryModel) {
             return true;
@@ -23,7 +23,7 @@ class DirectoryModelNormalizer extends AbstractNormalizer
         return false;
     }
 
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $object = new DirectoryModel();
         if (isset($data['type'])) {
@@ -39,19 +39,26 @@ class DirectoryModelNormalizer extends AbstractNormalizer
         return $object;
     }
 
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = new \stdClass();
+        $data = [];
         if (null !== $object->getType()) {
-            $data->{'type'} = $object->getType();
+            $data['type'] = $object->getType();
         }
         if (null !== $object->getItems()) {
             $values = array();
             foreach ($object->getItems() as $value) {
                 $values[] = $this->serializer->serialize($value, 'raw', $context);
             }
-            $data->{'items'} = $values;
+            $data['items'] = $values;
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'object',
+        ];
     }
 }

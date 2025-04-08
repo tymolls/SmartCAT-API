@@ -4,7 +4,7 @@ namespace SmartCat\Client\Normalizer;
 
 class TMRangeRateModelNormalizer extends AbstractNormalizer
 {
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== 'SmartCat\\Client\\Model\\TMRangeRateModel') {
             return false;
@@ -12,7 +12,7 @@ class TMRangeRateModelNormalizer extends AbstractNormalizer
         return true;
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if ($data instanceof \SmartCat\Client\Model\TMRangeRateModel) {
             return true;
@@ -20,7 +20,7 @@ class TMRangeRateModelNormalizer extends AbstractNormalizer
         return false;
     }
 
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $object = new \SmartCat\Client\Model\TMRangeRateModel();
         if (isset($data['fromQuality'])) {
@@ -35,18 +35,25 @@ class TMRangeRateModelNormalizer extends AbstractNormalizer
         return $object;
     }
 
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = new \stdClass();
+        $data = [];
         if (null !== $object->getFromQuality()) {
-            $data->{'fromQuality'} = $object->getFromQuality();
+            $data['fromQuality'] = $object->getFromQuality();
         }
         if (null !== $object->getToQuality()) {
-            $data->{'toQuality'} = $object->getToQuality();
+            $data['toQuality'] = $object->getToQuality();
         }
         if (null !== $object->getValue()) {
-            $data->{'value'} = $object->getValue();
+            $data['value'] = $object->getValue();
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'object',
+        ];
     }
 }

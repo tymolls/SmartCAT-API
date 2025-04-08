@@ -6,7 +6,7 @@ use Carbon\Carbon;
 
 class CreateProjectModelNormalizer extends AbstractNormalizer
 {
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== 'SmartCat\\Client\\Model\\CreateProjectModel') {
             return false;
@@ -14,7 +14,7 @@ class CreateProjectModelNormalizer extends AbstractNormalizer
         return true;
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if ($data instanceof \SmartCat\Client\Model\CreateProjectModel) {
             return true;
@@ -22,7 +22,7 @@ class CreateProjectModelNormalizer extends AbstractNormalizer
         return false;
     }
 
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $object = new \SmartCat\Client\Model\CreateProjectModel();
         if (isset($data['name'])) {
@@ -105,86 +105,93 @@ class CreateProjectModelNormalizer extends AbstractNormalizer
         return $object;
     }
 
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = new \stdClass();
+        $data = [];
         if (null !== $object->getName()) {
-            $data->{'name'} = $object->getName();
+            $data['name'] = $object->getName();
         }
         if (null !== $object->getDescription()) {
-            $data->{'description'} = $object->getDescription();
+            $data['description'] = $object->getDescription();
         }
         if (null !== $object->getDeadline()) {
-            $data->{'deadline'} = Carbon::parse($object->getDeadline())->toISOString();
+            $data['deadline'] = Carbon::parse($object->getDeadline())->toISOString();
         }
         if (null !== $object->getSourceLanguage()) {
-            $data->{'sourceLanguage'} = $object->getSourceLanguage();
+            $data['sourceLanguage'] = $object->getSourceLanguage();
         }
         if (null !== $object->getTargetLanguages()) {
             $values = array();
             foreach ($object->getTargetLanguages() as $value) {
                 $values[] = $value;
             }
-            $data->{'targetLanguages'} = $values;
+            $data['targetLanguages'] = $values;
         }
         if (null !== $object->getDomainId()) {
-            $data->{'domainId'} = $object->getDomainId();
+            $data['domainId'] = $object->getDomainId();
         }
         if (null !== $object->getClientId()) {
-            $data->{'clientId'} = $object->getClientId();
+            $data['clientId'] = $object->getClientId();
         }
         if (null !== $object->getVendorAccountIds()) {
             $values_1 = array();
             foreach ($object->getVendorAccountIds() as $value_1) {
                 $values_1[] = $value_1;
             }
-            $data->{'vendorAccountIds'} = $values_1;
+            $data['vendorAccountIds'] = $values_1;
         }
         if (null !== $object->getAssignToVendor()) {
-            $data->{'assignToVendor'} = $object->getAssignToVendor();
+            $data['assignToVendor'] = $object->getAssignToVendor();
         }
         if (null !== $object->getUseMT()) {
-            $data->{'useMT'} = $object->getUseMT();
+            $data['useMT'] = $object->getUseMT();
         }
         if (null !== $object->getPretranslate()) {
-            $data->{'pretranslate'} = $object->getPretranslate();
+            $data['pretranslate'] = $object->getPretranslate();
         }
         if (null !== $object->getTranslationMemoryName()) {
-            $data->{'translationMemoryName'} = $object->getTranslationMemoryName();
+            $data['translationMemoryName'] = $object->getTranslationMemoryName();
         }
         if (null !== $object->getUseTranslationMemory()) {
-            $data->{'useTranslationMemory'} = $object->getUseTranslationMemory();
+            $data['useTranslationMemory'] = $object->getUseTranslationMemory();
         }
         if (null !== $object->getAutoPropagateRepetitions()) {
-            $data->{'autoPropagateRepetitions'} = $object->getAutoPropagateRepetitions();
+            $data['autoPropagateRepetitions'] = $object->getAutoPropagateRepetitions();
         }
         if (null !== $object->getDisassembleAlgorithmNames()) {
             $values_1 = array();
             foreach ($object->getDisassembleAlgorithmNames() as $value_1) {
                 $values_1[] = $value_1;
             }
-            $data->{'disassembleAlgorithmNames'} = $values_1;
+            $data['disassembleAlgorithmNames'] = $values_1;
         }
         if (null !== $object->getDocumentProperties()) {
             $values_2 = array();
             foreach ($object->getDocumentProperties() as $value_2) {
                 $values_2[] = $this->serializer->serialize($value_2, 'raw', $context);
             }
-            $data->{'documentProperties'} = $values_2;
+            $data['documentProperties'] = $values_2;
         }
         if (null !== $object->getWorkflowStages()) {
             $values_3 = array();
             foreach ($object->getWorkflowStages() as $value_3) {
                 $values_3[] = $value_3;
             }
-            $data->{'workflowStages'} = $values_3;
+            $data['workflowStages'] = $values_3;
         }
         if (null !== $object->getIsForTesting()) {
-            $data->{'isForTesting'} = $object->getIsForTesting();
+            $data['isForTesting'] = $object->getIsForTesting();
         }
         if (null !== $object->getExternalTag()) {
-            $data->{'externalTag'} = $object->getExternalTag();
+            $data['externalTag'] = $object->getExternalTag();
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'object',
+        ];
     }
 }

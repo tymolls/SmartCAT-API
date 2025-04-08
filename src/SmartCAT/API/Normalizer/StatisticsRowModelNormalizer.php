@@ -4,7 +4,7 @@ namespace SmartCat\Client\Normalizer;
 
 class StatisticsRowModelNormalizer extends AbstractNormalizer
 {
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== 'SmartCat\\Client\\Model\\StatisticsRowModel') {
             return false;
@@ -12,7 +12,7 @@ class StatisticsRowModelNormalizer extends AbstractNormalizer
         return true;
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if ($data instanceof \SmartCat\Client\Model\StatisticsRowModel) {
             return true;
@@ -20,7 +20,7 @@ class StatisticsRowModelNormalizer extends AbstractNormalizer
         return false;
     }
 
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $object = new \SmartCat\Client\Model\StatisticsRowModel();
         if (isset($data['name'])) {
@@ -53,36 +53,43 @@ class StatisticsRowModelNormalizer extends AbstractNormalizer
         return $object;
     }
 
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = new \stdClass();
+        $data = [];
         if (null !== $object->getName()) {
-            $data->{'name'} = $object->getName();
+            $data['name'] = $object->getName();
         }
         if (null !== $object->getWords()) {
-            $data->{'words'} = $object->getWords();
+            $data['words'] = $object->getWords();
         }
         if (null !== $object->getPercent()) {
-            $data->{'percent'} = $object->getPercent();
+            $data['percent'] = $object->getPercent();
         }
         if (null !== $object->getSegments()) {
-            $data->{'segments'} = $object->getSegments();
+            $data['segments'] = $object->getSegments();
         }
         if (null !== $object->getPages()) {
-            $data->{'pages'} = $object->getPages();
+            $data['pages'] = $object->getPages();
         }
         if (null !== $object->getCharsWithoutSpaces()) {
-            $data->{'charsWithoutSpaces'} = $object->getCharsWithoutSpaces();
+            $data['charsWithoutSpaces'] = $object->getCharsWithoutSpaces();
         }
         if (null !== $object->getCharsWithSpaces()) {
-            $data->{'charsWithSpaces'} = $object->getCharsWithSpaces();
+            $data['charsWithSpaces'] = $object->getCharsWithSpaces();
         }
         if (null !== $object->getCost()) {
-            $data->{'cost'} = $object->getCost();
+            $data['cost'] = $object->getCost();
         }
         if (null !== $object->getEffectiveWordsForBilling()) {
-            $data->{'effectiveWordsForBilling'} = $object->getEffectiveWordsForBilling();
+            $data['effectiveWordsForBilling'] = $object->getEffectiveWordsForBilling();
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'object',
+        ];
     }
 }

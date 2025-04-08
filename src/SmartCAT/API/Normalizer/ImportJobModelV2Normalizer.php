@@ -6,7 +6,7 @@ use SmartCat\Client\Model\ImportJobModelV2;
 
 class ImportJobModelV2Normalizer extends AbstractNormalizer
 {
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== 'SmartCat\\Client\\Model\\ImportJobModelV2') {
             return false;
@@ -14,7 +14,7 @@ class ImportJobModelV2Normalizer extends AbstractNormalizer
         return true;
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if ($data instanceof \SmartCat\Client\Model\ImportJobModelV2) {
             return true;
@@ -22,7 +22,7 @@ class ImportJobModelV2Normalizer extends AbstractNormalizer
         return false;
     }
 
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $object = new \SmartCat\Client\Model\ImportJobModelV2();
         if (isset($data['supplierEmail'])) {
@@ -58,40 +58,47 @@ class ImportJobModelV2Normalizer extends AbstractNormalizer
         return $object;
     }
 
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = new \stdClass();
+        $data = [];
 
         if (null !== $object->getSupplierEmail()) {
-            $data->{'supplierEmail'} = $object->getSupplierEmail();
+            $data['supplierEmail'] = $object->getSupplierEmail();
         }
         if (null !== $object->getSupplierName()) {
-            $data->{'supplierName'} = $object->getSupplierName();
+            $data['supplierName'] = $object->getSupplierName();
         }
         if (null !== $object->getSupplierType()) {
-            $data->{'supplierType'} = $object->getSupplierType();
+            $data['supplierType'] = $object->getSupplierType();
         }
         if (null !== $object->getServiceType()) {
-            $data->{'serviceType'} = $object->getServiceType();
+            $data['serviceType'] = $object->getServiceType();
         }
         if (null !== $object->getJobDescription()) {
-            $data->{'jobDescription'} = $object->getJobDescription();
+            $data['jobDescription'] = $object->getJobDescription();
         }
         if (null !== $object->getUnitsType()) {
-            $data->{'unitsType'} = $object->getUnitsType();
+            $data['unitsType'] = $object->getUnitsType();
         }
         if (null !== $object->getUnitsAmount()) {
-            $data->{'unitsAmount'} = $object->getUnitsAmount();
+            $data['unitsAmount'] = $object->getUnitsAmount();
         }
         if (null !== $object->getPricePerUnit()) {
-            $data->{'pricePerUnit'} = $object->getPricePerUnit();
+            $data['pricePerUnit'] = $object->getPricePerUnit();
         }
         if (null !== $object->getCurrency()) {
-            $data->{'currency'} = $object->getCurrency();
+            $data['currency'] = $object->getCurrency();
         }
         if (null !== $object->getExternalNumber()) {
-            $data->{'externalNumber'} = $object->getExternalNumber();
+            $data['externalNumber'] = $object->getExternalNumber();
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'object',
+        ];
     }
 }

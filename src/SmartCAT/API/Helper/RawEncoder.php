@@ -14,28 +14,28 @@ class RawEncoder implements DecoderInterface, EncoderInterface
     /**
      * {@inheritdoc}
      */
-    public function decode($data, $format, array $context = array())
+    public function decode(string $data, string $format, array $context = []): mixed
     {
         return $data;
     }
     /**
      * {@inheritdoc}
      */
-    public function supportsDecoding($format)
+    public function supportsDecoding(string $format): bool
     {
         return self::FORMAT === $format;
     }
     /**
      * {@inheritdoc}
      */
-    public function encode($data, $format, array $context = array())
+    public function encode(mixed $data, string $format, array $context = []): string
     {
         return $data;
     }
     /**
      * {@inheritdoc}
      */
-    public function supportsEncoding($format)
+    public function supportsEncoding(string $format): bool
     {
         return self::FORMAT === $format;
     }

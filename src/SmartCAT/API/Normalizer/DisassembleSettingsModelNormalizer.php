@@ -10,21 +10,21 @@ class DisassembleSettingsModelNormalizer implements DenormalizerInterface, Norma
 {
     use SerializerAwareTrait;
 
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== 'SmartCat\\Client\\Model\\DisassembleSettingsModel') {
             return false;
         }
         return true;
     }
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if ($data instanceof \SmartCAT\Client\Model\DisassembleSettingsModel) {
             return true;
         }
         return false;
     }
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $object = new \SmartCAT\Client\Model\DisassembleSettingsModel();
         if (isset($data['translatableAttributes'])) {
@@ -32,12 +32,19 @@ class DisassembleSettingsModelNormalizer implements DenormalizerInterface, Norma
         }
         return $object;
     }
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = new \stdClass();
+        $data = [];
         if (null !== $object->getTranslatableAttributes()) {
-            $data->{'translatableAttributes'} = $object->getTranslatableAttributes();
+            $data['translatableAttributes'] = $object->getTranslatableAttributes();
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'object',
+        ];
     }
 }

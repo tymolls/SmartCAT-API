@@ -6,7 +6,7 @@ use Carbon\Carbon;
 
 class TranslationMemoryModelNormalizer extends AbstractNormalizer
 {
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== 'SmartCat\\Client\\Model\\TranslationMemoryModel') {
             return false;
@@ -14,7 +14,7 @@ class TranslationMemoryModelNormalizer extends AbstractNormalizer
         return true;
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if ($data instanceof \SmartCat\Client\Model\TranslationMemoryModel) {
             return true;
@@ -22,7 +22,7 @@ class TranslationMemoryModelNormalizer extends AbstractNormalizer
         return false;
     }
 
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $object = new \SmartCat\Client\Model\TranslationMemoryModel();
         if (isset($data['id'])) {
@@ -66,47 +66,54 @@ class TranslationMemoryModelNormalizer extends AbstractNormalizer
         return $object;
     }
 
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = new \stdClass();
+        $data = [];
         if (null !== $object->getId()) {
-            $data->{'id'} = $object->getId();
+            $data['id'] = $object->getId();
         }
         if (null !== $object->getAccountId()) {
-            $data->{'accountId'} = $object->getAccountId();
+            $data['accountId'] = $object->getAccountId();
         }
         if (null !== $object->getClientId()) {
-            $data->{'clientId'} = $object->getClientId();
+            $data['clientId'] = $object->getClientId();
         }
         if (null !== $object->getName()) {
-            $data->{'name'} = $object->getName();
+            $data['name'] = $object->getName();
         }
         if (null !== $object->getDescription()) {
-            $data->{'description'} = $object->getDescription();
+            $data['description'] = $object->getDescription();
         }
         if (null !== $object->getSourceLanguage()) {
-            $data->{'sourceLanguage'} = $object->getSourceLanguage();
+            $data['sourceLanguage'] = $object->getSourceLanguage();
         }
         if (null !== $object->getTargetLanguages()) {
             $values = array();
             foreach ($object->getTargetLanguages() as $value) {
                 $values[] = $value;
             }
-            $data->{'targetLanguages'} = $values;
+            $data['targetLanguages'] = $values;
         }
         if (null !== $object->getCreatedDate()) {
-            $data->{'createdDate'} = Carbon::parse($object->getCreatedDate())->toISOString();
+            $data['createdDate'] = Carbon::parse($object->getCreatedDate())->toISOString();
         }
         if (null !== $object->getIsAutomaticallyCreated()) {
-            $data->{'isAutomaticallyCreated'} = $object->getIsAutomaticallyCreated();
+            $data['isAutomaticallyCreated'] = $object->getIsAutomaticallyCreated();
         }
         if (null !== $object->getUnitCountByLanguageId()) {
             $values_1 = new \stdClass();
             foreach ($object->getUnitCountByLanguageId() as $key => $value_1) {
                 $values_1->{$key} = $value_1;
             }
-            $data->{'unitCountByLanguageId'} = $values_1;
+            $data['unitCountByLanguageId'] = $values_1;
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'object',
+        ];
     }
 }

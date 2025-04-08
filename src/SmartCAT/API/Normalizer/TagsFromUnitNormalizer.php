@@ -4,7 +4,7 @@ namespace SmartCat\Client\Normalizer;
 
 class TagsFromUnitNormalizer extends AbstractNormalizer
 {
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== 'SmartCat\\Client\\Model\\TagsFromUnit') {
             return false;
@@ -12,7 +12,7 @@ class TagsFromUnitNormalizer extends AbstractNormalizer
         return true;
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if ($data instanceof \SmartCat\Client\Model\TagsFromUnit) {
             return true;
@@ -20,7 +20,7 @@ class TagsFromUnitNormalizer extends AbstractNormalizer
         return false;
     }
 
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $object = new \SmartCat\Client\Model\TagsFromUnit();
         if (isset($data['position'])) {
@@ -32,15 +32,22 @@ class TagsFromUnitNormalizer extends AbstractNormalizer
         return $object;
     }
 
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = new \stdClass();
+        $data = [];
         if (null !== $object->getPosition()) {
-            $data->{'position'} = $object->getPosition();
+            $data['position'] = $object->getPosition();
         }
         if (null !== $object->getOrder()) {
-            $data->{'order'} = $object->getOrder();
+            $data['order'] = $object->getOrder();
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'object',
+        ];
     }
 }

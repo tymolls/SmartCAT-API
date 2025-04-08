@@ -6,7 +6,7 @@ use Carbon\Carbon;
 
 class ProjectChangesModelNormalizer extends AbstractNormalizer
 {
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== 'SmartCat\\Client\\Model\\ProjectChangesModel') {
             return false;
@@ -14,7 +14,7 @@ class ProjectChangesModelNormalizer extends AbstractNormalizer
         return true;
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if ($data instanceof \SmartCat\Client\Model\ProjectChangesModel) {
             return true;
@@ -22,7 +22,7 @@ class ProjectChangesModelNormalizer extends AbstractNormalizer
         return false;
     }
 
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $object = new \SmartCat\Client\Model\ProjectChangesModel();
         if (isset($data['name'])) {
@@ -53,34 +53,41 @@ class ProjectChangesModelNormalizer extends AbstractNormalizer
         return $object;
     }
 
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = new \stdClass();
+        $data = [];
         if (null !== $object->getName()) {
-            $data->{'name'} = $object->getName();
+            $data['name'] = $object->getName();
         }
         if (null !== $object->getDescription()) {
-            $data->{'description'} = $object->getDescription();
+            $data['description'] = $object->getDescription();
         }
         if (null !== $object->getDeadline()) {
-            $data->{'deadline'} = Carbon::parse($object->getDeadline())->toISOString();
+            $data['deadline'] = Carbon::parse($object->getDeadline())->toISOString();
         }
         if (null !== $object->getClientId()) {
-            $data->{'clientId'} = $object->getClientId();
+            $data['clientId'] = $object->getClientId();
         }
         if (null !== $object->getDomainId()) {
-            $data->{'domainId'} = $object->getDomainId();
+            $data['domainId'] = $object->getDomainId();
         }
         if (null !== $object->getVendorAccountIds()) {
             $values_1 = array();
             foreach ($object->getVendorAccountIds() as $value_1) {
                 $values_1[] = $value_1;
             }
-            $data->{'vendorAccountIds'} = $values_1;
+            $data['vendorAccountIds'] = $values_1;
         }
         if (null !== $object->getExternalTag()) {
-            $data->{'externalTag'} = $object->getExternalTag();
+            $data['externalTag'] = $object->getExternalTag();
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'object',
+        ];
     }
 }

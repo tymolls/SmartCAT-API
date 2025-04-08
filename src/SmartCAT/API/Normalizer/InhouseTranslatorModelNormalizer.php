@@ -6,7 +6,7 @@ use SmartCat\Client\Model\ServiceModel;
 
 class InhouseTranslatorModelNormalizer extends AbstractNormalizer
 {
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== 'SmartCat\\Client\\Model\\InhouseTranslatorModel') {
             return false;
@@ -14,7 +14,7 @@ class InhouseTranslatorModelNormalizer extends AbstractNormalizer
         return true;
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if ($data instanceof \SmartCat\Client\Model\InhouseTranslatorModel) {
             return true;
@@ -22,7 +22,7 @@ class InhouseTranslatorModelNormalizer extends AbstractNormalizer
         return false;
     }
 
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $object = new \SmartCat\Client\Model\InhouseTranslatorModel();
         if (isset($data['id'])) {
@@ -58,40 +58,47 @@ class InhouseTranslatorModelNormalizer extends AbstractNormalizer
         return $object;
     }
 
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = new \stdClass();
+        $data = [];
 
         if (null !== $object->getId()) {
-            $data->{'id'} = $object->getId();
+            $data['id'] = $object->getId();
         }
         if (null !== $object->getEmail()) {
-            $data->{'email'} = $object->getEmail();
+            $data['email'] = $object->getEmail();
         }
         if (null !== $object->getFirstName()) {
-            $data->{'firstName'} = $object->getFirstName();
+            $data['firstName'] = $object->getFirstName();
         }
         if (null !== $object->getLastName()) {
-            $data->{'lastName'} = $object->getLastName();
+            $data['lastName'] = $object->getLastName();
         }
         if (null !== $object->getExternalId()) {
-            $data->{'externalId'} = $object->getExternalId();
+            $data['externalId'] = $object->getExternalId();
         }
         if (null !== $object->getServices()) {
             $values1 = [];
             foreach ($object->getServices() as $value1) {
                 $values1[] = $this->serializer->serialize($value1, 'json');
             }
-            $data->{'services'} = $values1;
+            $data['services'] = $values1;
         }
         if (null !== $object->getClientIds()) {
             $values2 = [];
             foreach ($object->getClientIds() as $value2) {
                 $values2[] = $value2;
             }
-            $data->{'clientIds'} = $values2;
+            $data['clientIds'] = $values2;
         }
 
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'object',
+        ];
     }
 }

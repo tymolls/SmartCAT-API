@@ -4,7 +4,7 @@ namespace SmartCat\Client\Normalizer;
 
 class DocumentWorkflowStageModelNormalizer extends AbstractNormalizer
 {
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== 'SmartCat\\Client\\Model\\DocumentWorkflowStageModel') {
             return false;
@@ -12,7 +12,7 @@ class DocumentWorkflowStageModelNormalizer extends AbstractNormalizer
         return true;
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if ($data instanceof \SmartCat\Client\Model\DocumentWorkflowStageModel) {
             return true;
@@ -20,7 +20,7 @@ class DocumentWorkflowStageModelNormalizer extends AbstractNormalizer
         return false;
     }
 
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $object = new \SmartCat\Client\Model\DocumentWorkflowStageModel();
         if (isset($data['progress'])) {
@@ -45,28 +45,35 @@ class DocumentWorkflowStageModelNormalizer extends AbstractNormalizer
         return $object;
     }
 
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = new \stdClass();
+        $data = [];
         if (null !== $object->getProgress()) {
-            $data->{'progress'} = $object->getProgress();
+            $data['progress'] = $object->getProgress();
         }
         if (null !== $object->getWordsTranslated()) {
-            $data->{'wordsTranslated'} = $object->getWordsTranslated();
+            $data['wordsTranslated'] = $object->getWordsTranslated();
         }
         if (null !== $object->getUnassignedWordsCount()) {
-            $data->{'unassignedWordsCount'} = $object->getUnassignedWordsCount();
+            $data['unassignedWordsCount'] = $object->getUnassignedWordsCount();
         }
         if (null !== $object->getStatus()) {
-            $data->{'status'} = $object->getStatus();
+            $data['status'] = $object->getStatus();
         }
         if (null !== $object->getExecutives()) {
             $values = array();
             foreach ($object->getExecutives() as $value) {
                 $values[] = $this->serializer->serialize($value, 'raw', $context);
             }
-            $data->{'executives'} = $values;
+            $data['executives'] = $values;
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'object',
+        ];
     }
 }

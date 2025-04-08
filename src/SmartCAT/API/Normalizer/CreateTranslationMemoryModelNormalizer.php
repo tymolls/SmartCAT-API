@@ -4,7 +4,7 @@ namespace SmartCat\Client\Normalizer;
 
 class CreateTranslationMemoryModelNormalizer extends AbstractNormalizer
 {
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== 'SmartCat\\Client\\Model\\CreateTranslationMemoryModel') {
             return false;
@@ -12,7 +12,7 @@ class CreateTranslationMemoryModelNormalizer extends AbstractNormalizer
         return true;
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if ($data instanceof \SmartCat\Client\Model\CreateTranslationMemoryModel) {
             return true;
@@ -20,7 +20,7 @@ class CreateTranslationMemoryModelNormalizer extends AbstractNormalizer
         return false;
     }
 
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $object = new \SmartCat\Client\Model\CreateTranslationMemoryModel();
         if (isset($data['name'])) {
@@ -45,28 +45,35 @@ class CreateTranslationMemoryModelNormalizer extends AbstractNormalizer
         return $object;
     }
 
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = new \stdClass();
+        $data = [];
         if (null !== $object->getName()) {
-            $data->{'name'} = $object->getName();
+            $data['name'] = $object->getName();
         }
         if (null !== $object->getSourceLanguage()) {
-            $data->{'sourceLanguage'} = $object->getSourceLanguage();
+            $data['sourceLanguage'] = $object->getSourceLanguage();
         }
         if (null !== $object->getTargetLanguages()) {
             $values = array();
             foreach ($object->getTargetLanguages() as $value) {
                 $values[] = $value;
             }
-            $data->{'targetLanguages'} = $values;
+            $data['targetLanguages'] = $values;
         }
         if (null !== $object->getDescription()) {
-            $data->{'description'} = $object->getDescription();
+            $data['description'] = $object->getDescription();
         }
         if (null !== $object->getClientId()) {
-            $data->{'clientId'} = $object->getClientId();
+            $data['clientId'] = $object->getClientId();
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'object',
+        ];
     }
 }

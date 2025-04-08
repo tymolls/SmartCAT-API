@@ -4,7 +4,7 @@ namespace SmartCat\Client\Normalizer;
 
 class GlossaryModelNormalizer extends AbstractNormalizer
 {
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== 'SmartCat\\Client\\Model\\GlossaryModel') {
             return false;
@@ -12,7 +12,7 @@ class GlossaryModelNormalizer extends AbstractNormalizer
         return true;
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if ($data instanceof \SmartCat\Client\Model\GlossaryModel) {
             return true;
@@ -20,7 +20,7 @@ class GlossaryModelNormalizer extends AbstractNormalizer
         return false;
     }
 
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $object = new \SmartCat\Client\Model\GlossaryModel();
         if (isset($data['id'])) {
@@ -51,34 +51,41 @@ class GlossaryModelNormalizer extends AbstractNormalizer
         return $object;
     }
 
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = new \stdClass();
+        $data = [];
         if (null !== $object->getId()) {
-            $data->{'id'} = $object->getId();
+            $data['id'] = $object->getId();
         }
         if (null !== $object->getName()) {
-            $data->{'name'} = $object->getName();
+            $data['name'] = $object->getName();
         }
         if (null !== $object->getDescription()) {
-            $data->{'description'} = $object->getDescription();
+            $data['description'] = $object->getDescription();
         }
         if (null !== $object->getClientId()) {
-            $data->{'clientId'} = $object->getClientId();
+            $data['clientId'] = $object->getClientId();
         }
         if (null !== $object->getLanguages()) {
             $values = array();
             foreach ($object->getLanguages() as $value) {
                 $values[] = $value;
             }
-            $data->{'languages'} = $values;
+            $data['languages'] = $values;
         }
         if (null !== $object->getUnits()) {
-            $data->{'units'} = $object->getUnits();
+            $data['units'] = $object->getUnits();
         }
         if (null !== $object->getUnitsPending()) {
-            $data->{'unitsPending'} = $object->getUnitsPending();
+            $data['unitsPending'] = $object->getUnitsPending();
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'object',
+        ];
     }
 }

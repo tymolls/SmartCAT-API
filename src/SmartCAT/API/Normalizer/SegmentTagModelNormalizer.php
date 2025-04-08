@@ -4,7 +4,7 @@ namespace SmartCat\Client\Normalizer;
 
 class SegmentTagModelNormalizer extends AbstractNormalizer
 {
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== 'SmartCat\\Client\\Model\\SegmentTagModel') {
             return false;
@@ -12,7 +12,7 @@ class SegmentTagModelNormalizer extends AbstractNormalizer
         return true;
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if ($data instanceof \SmartCat\Client\Model\SegmentTagModel) {
             return true;
@@ -20,7 +20,7 @@ class SegmentTagModelNormalizer extends AbstractNormalizer
         return false;
     }
 
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $object = new \SmartCat\Client\Model\SegmentTagModel();
         if (isset($data['tagNumber'])) {
@@ -41,24 +41,31 @@ class SegmentTagModelNormalizer extends AbstractNormalizer
         return $object;
     }
 
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = new \stdClass();
+        $data = [];
         if (null !== $object->getTagNumber()) {
-            $data->{'tagNumber'} = $object->getTagNumber();
+            $data['tagNumber'] = $object->getTagNumber();
         }
         if (null !== $object->getTagType()) {
-            $data->{'tagType'} = $object->getTagType();
+            $data['tagType'] = $object->getTagType();
         }
         if (null !== $object->getPosition()) {
-            $data->{'position'} = $object->getPosition();
+            $data['position'] = $object->getPosition();
         }
         if (null !== $object->getIsVirtual()) {
-            $data->{'isVirtual'} = $object->getIsVirtual();
+            $data['isVirtual'] = $object->getIsVirtual();
         }
         if (null !== $object->getIsInvisible()) {
-            $data->{'isInvisible'} = $object->getIsInvisible();
+            $data['isInvisible'] = $object->getIsInvisible();
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'object',
+        ];
     }
 }

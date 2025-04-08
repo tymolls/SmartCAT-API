@@ -4,7 +4,7 @@ namespace SmartCat\Client\Normalizer;
 
 class ServiceModelNormalizer extends AbstractNormalizer
 {
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== 'SmartCat\\Client\\Model\\ServiceModel') {
             return false;
@@ -12,7 +12,7 @@ class ServiceModelNormalizer extends AbstractNormalizer
         return true;
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if ($data instanceof \SmartCat\Client\Model\ServiceModel) {
             return true;
@@ -20,7 +20,7 @@ class ServiceModelNormalizer extends AbstractNormalizer
         return false;
     }
 
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $object = new \SmartCat\Client\Model\ServiceModel();
         if (isset($data['serviceType'])) {
@@ -49,33 +49,40 @@ class ServiceModelNormalizer extends AbstractNormalizer
         return $object;
     }
 
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = new \stdClass();
+        $data = [];
 
         if (null !== $object->getServiceType()) {
-            $data->{'serviceType'} = $object->getServiceType();
+            $data['serviceType'] = $object->getServiceType();
         }
         if (null !== $object->getSourceLanguage()) {
-            $data->{'sourceLanguage'} = $object->getSourceLanguage();
+            $data['sourceLanguage'] = $object->getSourceLanguage();
         }
         if (null !== $object->getTargetLanguage()) {
-            $data->{'targetLanguage'} = $object->getTargetLanguage();
+            $data['targetLanguage'] = $object->getTargetLanguage();
         }
         if (null !== $object->getPricePerUnit()) {
-            $data->{'pricePerUnit'} = $object->getPricePerUnit();
+            $data['pricePerUnit'] = $object->getPricePerUnit();
         }
         if (null !== $object->getCurrency()) {
-            $data->{'currency'} = $object->getCurrency();
+            $data['currency'] = $object->getCurrency();
         }
         if (null !== $object->getSpecializations()) {
             $values = [];
             foreach ($object->getSpecializations() as $value) {
                 $values[] = $value;
             }
-            $data->{'specializations'} = $values;
+            $data['specializations'] = $values;
         }
 
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'object',
+        ];
     }
 }

@@ -4,7 +4,7 @@ namespace SmartCat\Client\Normalizer;
 
 class ExecutiveStatisticsModelNormalizer extends AbstractNormalizer
 {
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== 'SmartCat\\Client\\Model\\ExecutiveStatisticsModel') {
             return false;
@@ -12,7 +12,7 @@ class ExecutiveStatisticsModelNormalizer extends AbstractNormalizer
         return true;
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if ($data instanceof \SmartCat\Client\Model\ExecutiveStatisticsModel) {
             return true;
@@ -20,7 +20,7 @@ class ExecutiveStatisticsModelNormalizer extends AbstractNormalizer
         return false;
     }
 
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $object = new \SmartCat\Client\Model\ExecutiveStatisticsModel();
         if (isset($data['executive'])) {
@@ -52,35 +52,42 @@ class ExecutiveStatisticsModelNormalizer extends AbstractNormalizer
         return $object;
     }
 
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = new \stdClass();
+        $data = [];
         if (null !== $object->getExecutive()) {
-            $data->{'executive'} = $this->serializer->serialize($object->getExecutive(), 'raw', $context);
+            $data['executive'] = $this->serializer->serialize($object->getExecutive(), 'raw', $context);
         }
         if (null !== $object->getStageType()) {
-            $data->{'stageType'} = $object->getStageType();
+            $data['stageType'] = $object->getStageType();
         }
         if (null !== $object->getStageNumber()) {
-            $data->{'stageNumber'} = $object->getStageNumber();
+            $data['stageNumber'] = $object->getStageNumber();
         }
         if (null !== $object->getTargetLanguage()) {
-            $data->{'targetLanguage'} = $object->getTargetLanguage();
+            $data['targetLanguage'] = $object->getTargetLanguage();
         }
         if (null !== $object->getTotal()) {
             $values = array();
             foreach ($object->getTotal() as $value) {
                 $values[] = $this->serializer->serialize($value, 'raw', $context);
             }
-            $data->{'total'} = $values;
+            $data['total'] = $values;
         }
         if (null !== $object->getDocuments()) {
             $values_1 = array();
             foreach ($object->getDocuments() as $value_1) {
                 $values_1[] = $this->serializer->serialize($value_1, 'raw', $context);
             }
-            $data->{'documents'} = $values_1;
+            $data['documents'] = $values_1;
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'object',
+        ];
     }
 }

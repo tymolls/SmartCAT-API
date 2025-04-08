@@ -4,7 +4,7 @@ namespace SmartCat\Client\Normalizer;
 
 class ModelWithFilesIReadOnlyListCreateDocumentPropertyModelNormalizer extends AbstractNormalizer
 {
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== 'SmartCat\\Client\\Model\\ModelWithFilesIReadOnlyListCreateDocumentPropertyModel') {
             return false;
@@ -12,7 +12,7 @@ class ModelWithFilesIReadOnlyListCreateDocumentPropertyModelNormalizer extends A
         return true;
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if ($data instanceof \SmartCat\Client\Model\ModelWithFilesIReadOnlyListCreateDocumentPropertyModel) {
             return true;
@@ -20,7 +20,7 @@ class ModelWithFilesIReadOnlyListCreateDocumentPropertyModelNormalizer extends A
         return false;
     }
 
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $object = new \SmartCat\Client\Model\ModelWithFilesIReadOnlyListCreateDocumentPropertyModel();
         if (isset($data['Value'])) {
@@ -40,23 +40,30 @@ class ModelWithFilesIReadOnlyListCreateDocumentPropertyModelNormalizer extends A
         return $object;
     }
 
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = new \stdClass();
+        $data = [];
         if (null !== $object->getValue()) {
             $values = array();
             foreach ($object->getValue() as $value) {
                 $values[] = $this->serializer->serialize($value, 'raw', $context);
             }
-            $data->{'Value'} = $values;
+            $data['Value'] = $values;
         }
         if (null !== $object->getFiles()) {
             $values_1 = array();
             foreach ($object->getFiles() as $value_1) {
                 $values_1[] = $this->serializer->serialize($value_1, 'raw', $context);
             }
-            $data->{'Files'} = $values_1;
+            $data['Files'] = $values_1;
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'object',
+        ];
     }
 }

@@ -4,7 +4,7 @@ namespace SmartCat\Client\Normalizer;
 
 class UploadedFileNormalizer extends AbstractNormalizer
 {
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($type !== 'SmartCat\\Client\\Model\\UploadedFile') {
             return false;
@@ -12,7 +12,7 @@ class UploadedFileNormalizer extends AbstractNormalizer
         return true;
     }
 
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if ($data instanceof \SmartCat\Client\Model\UploadedFile) {
             return true;
@@ -20,7 +20,7 @@ class UploadedFileNormalizer extends AbstractNormalizer
         return false;
     }
 
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $object = new \SmartCat\Client\Model\UploadedFile();
         if (isset($data['FullName'])) {
@@ -41,24 +41,31 @@ class UploadedFileNormalizer extends AbstractNormalizer
         return $object;
     }
 
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = new \stdClass();
+        $data = [];
         if (null !== $object->getFullName()) {
-            $data->{'FullName'} = $object->getFullName();
+            $data['FullName'] = $object->getFullName();
         }
         if (null !== $object->getName()) {
-            $data->{'Name'} = $object->getName();
+            $data['Name'] = $object->getName();
         }
         if (null !== $object->getExtension()) {
-            $data->{'Extension'} = $object->getExtension();
+            $data['Extension'] = $object->getExtension();
         }
         if (null !== $object->getMediaType()) {
-            $data->{'MediaType'} = $object->getMediaType();
+            $data['MediaType'] = $object->getMediaType();
         }
         if (null !== $object->getFileSize()) {
-            $data->{'FileSize'} = $object->getFileSize();
+            $data['FileSize'] = $object->getFileSize();
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'object',
+        ];
     }
 }
